@@ -14,6 +14,7 @@ ADD = 1
 ROUND_TO = 3
 NULL = ''
 ZERO = 0
+END = -1
 LEGEND_BEST = 'Najlepszy'
 LEGEND_STR = 'Średnia'
 COORD_LEGEND = 'upper right'
@@ -29,19 +30,14 @@ class Statistic:
         self.__best = []
         self.__mean = []
         self.__std = []
-        self.__best_xy = (None, None)
+        self.__best_xy = []
 
     """ Zbieranie statystyk """
     def check_statistics(self, vec, popu) -> None:
         self.__best.append(np.min(vec))
         self.__mean.append(np.mean(vec))
         self.__std.append(np.std(vec))
-
-        if (
-                self.__best_xy[FIRST] is None
-                or self.__best_xy[FIRST] > np.min(vec)
-        ):
-            self.__best_xy = (np.min(vec), popu[np.argmin(vec)])
+        self.__best_xy.append(popu[np.argmin(vec)])
 
     """ Rysywanie wykresu """
     def draw_graphs(self) -> None:
@@ -67,12 +63,18 @@ class Statistic:
         self.__save_el(self.__std, STD)
 
     """ Zwraca min globalne """
-    def get_min_g(self) -> float:
-        return np.min(self.__best).round(ROUND_TO)
+    def get_global_best(self) -> ():
+        return (
+            round(np.min(self.__best), ROUND_TO),
+            self.__best_xy[np.argmin(self.__best)]
+        )
 
-    """ Zwraca globalne punkty xy """
-    def get_best_xy(self) -> []:
-        return self.__best_xy[SECOND]
+    """ Zwraca min ostatniej epoki """
+    def get_end_best(self) -> []:
+        return (
+            round(self.__best[END], ROUND_TO),
+            self.__best_xy[END]
+        )
 
     """ Zapis do pliku """
     @staticmethod

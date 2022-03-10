@@ -12,7 +12,7 @@ import tkinter.messagebox as tm
 
 PROC_CROSS = 0.7
 PROC_MUTATE = 0.9
-ROUND_TO = 2
+ROUND_TO = 3
 LEN_SAVE = 5
 BASE = 2
 ROAD_IND = 1
@@ -25,7 +25,7 @@ SECONDS = ' s'
 ELITE_LEN = 10
 EPOK = 'Epoka:'
 Y_TEXT = ' y='
-X_TEXT = ' Dla x='
+X_TEXT = '  dla x='
 GLOBAL = ' globalny '
 FIRST = 0
 SECOND = 1
@@ -83,7 +83,7 @@ class GenAlg:
             print(EPOK, i + ROAD_IND)
 
         self.__time.stop()
-        self.__show_result(popu)
+        self.__show_result()
 
     """ Funkcja generuje polulację """
     def __create_population(self) -> []:
@@ -112,35 +112,29 @@ class GenAlg:
         self.__time = Time()
 
     """ Pokazuje zgromadzone dane """
-    def __show_result(self, popu) -> None:
+    def __show_result(self) -> None:
         time = self.__time.get_result()
-        best, point = self.__get_best_val(popu)
-        best_global = self.__statistic.get_min_g()
-        best_glo_xy = self.__exam_popu.get_point(
-            self.__statistic.get_best_xy()
+
+        end_min, end_yx = self.__statistic.get_end_best()
+        best_min, best_yx = self.__statistic.get_global_best()
+
+        end_xy = self.__exam_popu.get_point(
+            end_yx
+        ).round(ROUND_TO)
+
+        best_xy = self.__exam_popu.get_point(
+            best_yx
         ).round(ROUND_TO)
 
         tm.showinfo(
             TITLE_INFO,
-            BEST_RESULT + END + str(best) + X_TEXT +
-            str(point[FIRST]) + Y_TEXT + str(point[SECOND]) +
-            NEW_LINE + BEST_RESULT + GLOBAL + str(best_global) +
-            X_TEXT + str(best_glo_xy[FIRST]) + Y_TEXT +
-            str(best_glo_xy[SECOND]) + NEW_LINE + NEW_LINE +
+            BEST_RESULT + END + str(end_min) + X_TEXT +
+            str(end_xy[FIRST]) + Y_TEXT + str(end_xy[SECOND]) +
+            NEW_LINE + BEST_RESULT + GLOBAL + str(best_min) +
+            X_TEXT + str(best_xy[FIRST]) + Y_TEXT +
+            str(best_xy[SECOND]) + NEW_LINE + NEW_LINE +
             TIME + time + SECONDS
         )
 
-        # self.__statistic.save_data() todo odkomentowac na kuncu, wypisywanie danych do txt
+        #self.__statistic.save_data()
         self.__statistic.draw_graphs()
-
-    """ Zwracanie najlepszej wartosci min """
-    def __get_best_val(self, popu) -> ():
-        rating = self.__exam_popu.get_eval(popu)
-        ind = np.argmin(rating)
-
-        best = np.round(rating[ind], ROUND_TO)
-        points = np.round(
-            self.__exam_popu.get_point(popu[ind]), ROUND_TO
-        )
-
-        return best, points
