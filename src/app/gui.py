@@ -2,7 +2,7 @@ import tkinter as tk
 import tkinter.ttk as ttk
 import tkinter.messagebox as tm
 from src.different.examStartVal import ExamStartVal
-from genAlg import GenAlg
+from src.app.genAlg import GenAlg
 
 
 TITLE = 'Aplikacja szukająca min.glo za pomocą alg.genetycznego'
