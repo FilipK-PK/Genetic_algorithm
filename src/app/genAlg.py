@@ -136,5 +136,5 @@ class GenAlg:
             TIME + time + SECONDS
         )
 
-        #self.__statistic.save_data()
+        self.__statistic.save_data()
         self.__statistic.draw_graphs()

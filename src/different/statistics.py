@@ -21,6 +21,11 @@ COORD_LEGEND = 'upper right'
 STD = 'Std'
 MEAN = 'Mean'
 BEST = 'Best'
+PATH_FOL = 'data//'
+COLUMN = 1
+ROW_1 = 1
+ROW_2 = 2
+ALL_EL = 2
 
 
 class Statistic:
@@ -43,13 +48,13 @@ class Statistic:
     def draw_graphs(self) -> None:
         epoch = np.arange(len(self.__best))
 
-        plt.subplot(2, 1, 1)
+        plt.subplot(ALL_EL, COLUMN, ROW_1)
         plt.title(TITLE_BEST_MENS)
         plt.plot(epoch, self.__best, label=LEGEND_BEST)
         plt.plot(epoch, self.__mean, label=LEGEND_STR)
         plt.legend(loc=COORD_LEGEND)
 
-        plt.subplot(2, 1, 2)
+        plt.subplot(ALL_EL, COLUMN, ROW_2)
         plt.title(TITLE_STD)
         plt.plot(epoch, self.__std)
 
@@ -58,9 +63,10 @@ class Statistic:
 
     """ Zapisywanie statystyka do pliku txt """
     def save_data(self) -> None:
-        self.__save_el(self.__best, BEST)
-        self.__save_el(self.__mean, MEAN)
-        self.__save_el(self.__std, STD)
+        self.__is_folder()
+        self.__save_el(self.__best, PATH_FOL + BEST)
+        self.__save_el(self.__mean, PATH_FOL + MEAN)
+        self.__save_el(self.__std, PATH_FOL + STD)
 
     """ Zwraca min globalne """
     def get_global_best(self) -> ():
@@ -79,7 +85,6 @@ class Statistic:
     """ Zapis do pliku """
     @staticmethod
     def __save_el(tab, name) -> None:
-
         add, ind = NULL, ZERO,
         while os.path.exists(name + add + TXT_TYPE):
             ind += ADD
@@ -89,3 +94,10 @@ class Statistic:
         np.savetxt(file, tab)
 
         file.close()
+
+    """ sprawdzenie czy folder na dane istnieje, jesli nie 
+    to go tworzymu """
+    @staticmethod
+    def __is_folder() -> None:
+        if not os.path.isdir(PATH_FOL):
+            os.mkdir(PATH_FOL)
