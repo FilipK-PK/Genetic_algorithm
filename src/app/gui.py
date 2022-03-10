@@ -1,7 +1,7 @@
 import tkinter as tk
 import tkinter.ttk as ttk
 import tkinter.messagebox as tm
-from examStartVal import ExamStartVal
+from src.different.examStartVal import ExamStartVal
 from genAlg import GenAlg
 
 

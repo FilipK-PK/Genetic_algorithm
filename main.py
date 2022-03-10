@@ -1,4 +1,4 @@
-from gui import Gui
+from src.app.gui import Gui
 
 
 """ Uruchamianie aplikacji """
