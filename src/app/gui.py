@@ -171,7 +171,7 @@ class Gui:
 
         self.__board = [x_min, x_max, y_min, y_max]
 
-    """ Wywoływanie okien do pobrania procenty """
+    """ Wywoływanie okien do pobrania procentow """
     def __set_proc_entry(self) -> None:
         self.__cross_prop = self.__put_entry(
             COLUMN_2, ROW_2, TITLE_CROSS_PROP
@@ -243,7 +243,7 @@ class Gui:
 
         return obj_1, obj_2
 
-    """ Ustawianie przycisku uruczamiającego """
+    """ Ustawianie przycisku uruchamiającego """
     def __set_button(self) -> None:
         self.__button = tk.Button(
             self.__main, text=TITLE_BUTTON,
@@ -253,7 +253,7 @@ class Gui:
 
         self.__button.place(x=BUT_X, y=BUT_Y)
 
-    """ Wykonuje sie w chwini nacisniecia przucisku """
+    """ Wykonuje sie w chwili nacisniecia przucisku """
     def __click(self) -> None:
         error = self.__test_var()
 

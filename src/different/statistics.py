@@ -44,7 +44,7 @@ class Statistic:
         self.__std.append(np.std(vec))
         self.__best_xy.append(popu[np.argmin(vec)])
 
-    """ Rysywanie wykresu """
+    """ Rysowanie wykresu """
     def draw_graphs(self) -> None:
         epoch = np.arange(len(self.__best))
 
@@ -95,7 +95,7 @@ class Statistic:
 
         file.close()
 
-    """ sprawdzenie czy folder na dane istnieje, jesli nie 
+    """ Sprawdzenie czy folder na dane istnieje, jesli nie 
     to go tworzymu """
     @staticmethod
     def __is_folder() -> None:

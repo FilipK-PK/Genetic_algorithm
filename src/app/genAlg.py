@@ -94,7 +94,7 @@ class GenAlg:
             )
         )
 
-    """ Inicjacja zawnetrznych klass """
+    """ Inicjacja zawnetrznych klas """
     def __init_extr_class(self) -> None:
         self.__exam_popu = Fun(
             self.__name_fun, self.__len_bit, self.__end_points

@@ -43,11 +43,11 @@ class Fun:
 
         return np.array(eval_list)
 
-    """ Funkcja zwraca wartosci dal danego vektora bit """
+    """ Funkcja zwraca wartosci dla danego vektora bit """
     def get_point(self, vec) -> []:
         return self.__bin_to_double(vec)
 
-    """ Zapisanie funkcji do zmiennej, czyszczy kod """
+    """ Zapisanie funkcji do zmiennej, czystrzy kod """
     def __set_use_fun(self, name_fun) -> None:
         set_fun = {
             FUN_ACKLEY: self.__fun_ackley,

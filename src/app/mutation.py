@@ -36,7 +36,7 @@ class Mutation:
 
         return np.reshape(new_popul, (TO_LIST, len_bit))
 
-    """ Kapisane zmiennej do funkcji czyszczy kod """
+    """ Zapisane zmiennej do funkcji czyszczy kod """
     def __init_use_fun(self, name_fun) -> None:
         list_fun = {
             BOUND: self.__end_mutate,
@@ -47,7 +47,7 @@ class Mutation:
 
         self.__use_fun = list_fun[name_fun]
 
-    """ Funkcja mutuje brzek """
+    """ Funkcja mutuje brzeg """
     @staticmethod
     def __end_mutate(vec) -> []:
         p = random.randint(END, START)

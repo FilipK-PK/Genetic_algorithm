@@ -6,7 +6,7 @@ TO_LIST = -1
 
 
 class Elite:
-    """ Klasa zapisuje na czas selekcji """
+    """ Klasa zapisuje dane na czas selekcji """
 
     def __init__(self, len_save):
         self.__len_save = len_save
@@ -30,7 +30,7 @@ class Elite:
 
         return popu, rating
 
-    """ Zwruccenie najlepszych """
+    """ Zwracanie najlepszych """
     def add_best(self, popu) -> []:
         if self.__len_save:
             len_ver = len(popu[FIRST])

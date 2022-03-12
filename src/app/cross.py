@@ -25,7 +25,7 @@ GET_3_POINT = 3
 
 
 class Cross:
-    """ Klasa przeprowadzająca krzyrzowanie osobników """
+    """ Klasa przeprowadzająca krzyżowanie osobników """
 
     def __init__(self, name_fun, pro_cross, len_popu):
         self.__pro_cross = pro_cross
@@ -58,14 +58,14 @@ class Cross:
 
         return np.reshape(new_popu, (TO_LIST, len_bit))
 
-    """ Redukcja populacji perzystej do nie parzystej """
+    """ Redukcja populacji parzystej do nieparzystej """
     def __reduc_no_div(self, popu, len_bit) -> []:
         p = np.random.randint(
             START, (self.__all_popu + MARGIN) * len_bit
         )
         return np.delete(popu, np.s_[p: p + len_bit], NULL)
 
-    """ Przypisanie do zmiennej funkcji, czyszczy kod """
+    """ Przypisanie do zmiennej funkcji, czystrzy kod """
     def __init_fun(self, name_fun) -> None:
         list_fun = {
             ONE_POINT: self.__fun_one_point,
@@ -76,7 +76,7 @@ class Cross:
 
         self.__use_fun = list_fun[name_fun]
 
-    """ Funkcja krzyzujaca dwia wektory w jednym punkcie """
+    """ Funkcja krzyzujaca dwa wektory w jednym punkcie """
     @staticmethod
     def __fun_one_point(vec_a, vec_b) -> ():
         size_list = len(vec_a)
@@ -94,7 +94,7 @@ class Cross:
 
         return new_vec_a, new_vec_b
 
-    """ Funkcja krzyzujaca dwia wektory w dwuch punktach """
+    """ Funkcja krzyzujaca dwia wektory w dwoch punktach """
     def __fun_two_point(self, vec_a, vec_b) -> ():
         size_list = len(vec_a)
         point = self.__rand_2_point(
@@ -113,7 +113,7 @@ class Cross:
 
         return p
 
-    """ Funkcja krzyzujaca dwia wektory w trzech punktach """
+    """ Funkcja krzyzujaca dwa wektory w trzech punktach """
     def __fun_three_point(self, vec_a, vec_b) -> ():
         size_list = len(vec_a)
 

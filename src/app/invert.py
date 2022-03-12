@@ -11,7 +11,7 @@ MARGIN = -1
 
 
 class Invert:
-    """ Klasa wykonywanie inwresji """
+    """ Klasa wykonywuje inwersje """
 
     def __init__(self, prop):
         self.__prop_inv = prop

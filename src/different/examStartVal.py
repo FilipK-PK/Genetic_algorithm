@@ -1,4 +1,4 @@
-PRE_TEXT = 'Bład w polu do wpisywania '
+PRE_TEXT = 'Błąd w polu do wpisywania '
 ERR_EPOCH = 'liczby epok'
 ERR_POPU = 'rozmiary populacji'
 ERR_BIT = 'liczby bitów'
@@ -18,7 +18,7 @@ ZERO_STR = '0'
 
 
 class ExamStartVal:
-    """ Klasa soprawdza wpisane wartosci w gui """
+    """ Klasa sprawdza wpisane wartosci w gui """
 
     """ Funkcja sprawdzajaca poprawnosc danych """
     def exam(self, epoch, len_popu, len_bit, end_points,

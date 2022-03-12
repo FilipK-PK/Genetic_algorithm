@@ -23,7 +23,7 @@ class Time:
     def start(self) -> None:
         self.__start = datetime.datetime.now()
 
-    """ Funkcja zatrzymuje miezenie czasu """
+    """ Funkcja zatrzymuje mierzenie czasu """
     def stop(self) -> None:
         self.__stop = datetime.datetime.now()
 
