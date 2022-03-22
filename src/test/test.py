@@ -3,16 +3,14 @@ from src.different.statistics import Statistic
 from src.app.cross import Cross
 from src.app.mutation import Mutation
 from src.app.select import Select
-from src.app.invert import Invert
-from src.different.timeRun import Time
 from src.app.elite import Elite
+from src.app.invert import Invert
 import numpy as np
-import tkinter.messagebox as tm
 
 
 PROC_CROSS = 0.7
 PROC_MUTATE = 0.9
-ROUND_TO = 3
+ROUND_TO = 7
 LEN_SAVE = 5
 BASE = 2
 ROAD_IND = 1
@@ -30,16 +28,21 @@ GLOBAL = ' globalny '
 FIRST = 0
 SECOND = 1
 TO_ROAD = 2
+SEP = '\t'
 
 
-class GenAlg:
-    """ Glowna klasa, zazadza obliczeniami """
+class Test:
+    """ Kopia klasy AlgGen okrojona do potrzebnych elementów,
+    słurzy do testowania pojedynczych elementów algorytmu genetycznego """
 
+
+    """ Parametry donyslne dla kazdego parametru, dla poprawy czystosci kodu """
     def __init__(
-            self, epoch, len_popu, len_var, len_bit, end_points,
-            name_fun, name_select, name_cross, name_mutate,
-            elit=ELITE_LEN, p_cross=PROC_CROSS, p_mutate=PROC_MUTATE,
-            p_invert=PROC_MUTATE
+            self, epoch=20, len_popu=50, len_var=2, len_bit=24,
+            end_points=[-10, 10, -10, 10], name_fun='ACKLEY',
+            name_select='Najlepsi', name_cross='Jednorodne',
+            name_mutate='Jednorodne', elit=3, p_cross=0.8,
+            p_mutate=0.1, p_invert=0.1
     ):
         self.__epoch = epoch
         self.__len_popu = len_popu
@@ -60,7 +63,6 @@ class GenAlg:
         self.__crosses = None
         self.__mutation = None
         self.__select = None
-        self.__time = None
         self.__elit = None
         self.__invert = None
 
@@ -68,8 +70,6 @@ class GenAlg:
     def run(self) -> None:
         self.__init_extr_class()  # inicjacja zewnetrznych klass
         popu = self.__create_population()  # tworzenie populacji
-
-        self.__time.start()
 
         for i in range(self.__epoch):
             rating = self.__exam_popu.get_eval(popu)  # Ocena populacji
@@ -80,9 +80,7 @@ class GenAlg:
             popu = self.__crosses.cross(popu)  # krzyzowanie populacji
             popu = self.__mutation.mutate(popu)  # mutacja populacji
             popu = self.__invert.invert(popu)  # inwersja populacji
-            print(EPOK, i + ROAD_IND)
 
-        self.__time.stop()
         self.__show_result()
 
     """ Funkcja generuje polulację """
@@ -109,35 +107,19 @@ class GenAlg:
         self.__invert = Invert(self.__p_invert)
         self.__elit = Elite(self.__elit_len)
         self.__statistic = Statistic()
-        self.__time = Time()
 
-    """ Pokazuje zgromadzone dane """
+    """ Pokazuje min globalne """
     def __show_result(self) -> None:
-        time = self.__time.get_result()
-
-        end_min, end_yx = self.__statistic.get_end_best()
         best_min, best_yx = self.__statistic.get_global_best()
+        print(best_min, end=SEP)
 
-        best_min = round(best_min, ROUND_TO)
-        end_min = round(end_min, ROUND_TO)
 
-        end_xy = self.__exam_popu.get_point(
-            end_yx
-        ).round(ROUND_TO)
+if __name__ == '__main__':
+    """ Sprawdzanie 10 razy kazdej wartosci danego parametru """
 
-        best_xy = self.__exam_popu.get_point(
-            best_yx
-        ).round(ROUND_TO)
-
-        tm.showinfo(
-            TITLE_INFO,
-            BEST_RESULT + END + str(end_min) + X_TEXT +
-            str(end_xy[FIRST]) + Y_TEXT + str(end_xy[SECOND]) +
-            NEW_LINE + BEST_RESULT + GLOBAL + str(best_min) +
-            X_TEXT + str(best_xy[FIRST]) + Y_TEXT +
-            str(best_xy[SECOND]) + NEW_LINE + NEW_LINE +
-            TIME + time + SECONDS
-        )
-
-        self.__statistic.save_data()
-        self.__statistic.draw_graphs()
+    """ Przykładowe wywołanie """
+    for el in ['Koła ruletki', 'Najlepsi', 'Selekcja turniejowa']:
+        for _ in range(10):
+            app = Test(name_select=el)
+            app.run()
+        print()

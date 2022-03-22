@@ -71,15 +71,14 @@ class Statistic:
     """ Zwraca min globalne """
     def get_global_best(self) -> ():
         return (
-            round(np.min(self.__best), ROUND_TO),
+            np.min(self.__best),
             self.__best_xy[np.argmin(self.__best)]
         )
 
     """ Zwraca min ostatniej epoki """
     def get_end_best(self) -> []:
         return (
-            round(self.__best[END], ROUND_TO),
-            self.__best_xy[END]
+            self.__best[END], self.__best_xy[END]
         )
 
     """ Zapis do pliku """
