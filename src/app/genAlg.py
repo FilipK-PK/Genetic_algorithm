@@ -11,6 +11,7 @@ import tkinter.messagebox as tm
 
 
 PROC_CROSS = 0.7
+PROC_SELECT = 1
 PROC_MUTATE = 0.9
 ROUND_TO = 3
 LEN_SAVE = 5
@@ -38,8 +39,7 @@ class GenAlg:
     def __init__(
             self, epoch, len_popu, len_var, len_bit, end_points,
             name_fun, name_select, name_cross, name_mutate,
-            elit=ELITE_LEN, p_cross=PROC_CROSS, p_mutate=PROC_MUTATE,
-            p_invert=PROC_MUTATE
+            elit, p_select, p_cross, p_mutate, p_invert
     ):
         self.__epoch = epoch
         self.__len_popu = len_popu
@@ -50,6 +50,7 @@ class GenAlg:
         self.__name_select = name_select
         self.__name_cross = name_cross
         self.__p_cross = p_cross
+        self.__p_select = p_select
         self.__name_mutate = name_mutate
         self.__p_mutate = p_mutate
         self.__p_invert = p_invert
@@ -80,7 +81,7 @@ class GenAlg:
             popu = self.__crosses.cross(popu)  # krzyzowanie populacji
             popu = self.__mutation.mutate(popu)  # mutacja populacji
             popu = self.__invert.invert(popu)  # inwersja populacji
-            print(EPOK, i + ROAD_IND)
+            print(EPOK + str(i))
 
         self.__time.stop()
         self.__show_result()
@@ -105,7 +106,9 @@ class GenAlg:
         self.__mutation = Mutation(
             self.__name_mutate, self.__p_mutate
         )
-        self.__select = Select(self.__name_select)
+        self.__select = Select(
+            self.__name_select, self.__p_select
+        )
         self.__invert = Invert(self.__p_invert)
         self.__elit = Elite(self.__elit_len)
         self.__statistic = Statistic()

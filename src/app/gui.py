@@ -15,6 +15,7 @@ TITLE_SELECT = 'Funkcja selekcji'
 TITLE_CROSS = 'Funkcja krzyzowania'
 TITLE_MUTABLE = 'Funkcja mutacji'
 TITLE_CROSS_PROP = 'Procent krzyzowania'
+TITLE_SELECT_PROP = 'Procent selekcji'
 TITLE_MUTABLE_PROP = 'Procent mutacji'
 TITLE_INVER_PROP = 'Procent inwersji'
 TITLE_ELIT = 'Strategia elitarna'
@@ -35,6 +36,8 @@ MARGIN_2_ENTRY = 195
 MARGIN_FROM = 95
 MARGIN_TO = 170
 FIRST = 0
+SECOND = 1
+THIRD = 2
 WIDTH_ENTRY = 19
 WIDTH_SET = 7
 WIDTH_COMBOX = 16
@@ -53,6 +56,7 @@ Y_MIN, Y_MAX = 2, 3
 BUT_X, BUT_Y = 220, 290
 TITLE_X, TITLE_Y = 70, 10
 TITLE_ERROR = 'Bład danych'
+CLICK_SELECT = '<<ComboboxSelected>>'
 VALUES = 'values'
 OPT_FUN = (
     'ACKLEY', 'BEALE', 'BUKIN', 'DROP-WAVE',
@@ -70,6 +74,10 @@ OPT_MUTABLE = (
     'Brzegowa', 'Jedno punktowa', 'Dwu punktowa',
     'Jednorodne'
 )
+OPT_PROC_SELECT = [
+    'Proc. losowan ruletki', 'Proc. najlepszych',
+    'Roz. grupy w turnieju'
+]
 
 
 class Gui:
@@ -88,12 +96,15 @@ class Gui:
         self.__cross = None
         self.__mutate = None
         self.__button = None
+        self.__select_prop = None
         self.__cross_prop = None
         self.__mutable_prop = None
         self.__inver_prop = None
         self.__elit = None
+        self.__p_select_text = None
         self.__opt_fun = tk.StringVar()
         self.__opt_select = tk.StringVar()
+        self.__p_select = tk.StringVar()
         self.__opt_cross = tk.StringVar()
         self.__opt_mutable = tk.StringVar()
 
@@ -110,6 +121,7 @@ class Gui:
         self.__set_option_epok()
         self.__set_choise_win()
         self.__set_proc_entry()
+        self.__set_select_proc()
         self.__set_entry_get_set()
         self.__set_button()
 
@@ -149,6 +161,10 @@ class Gui:
             OPT_SELECT, self.__opt_select
         )
 
+        self.__fun_select.bind(
+            CLICK_SELECT, self.__set_new_title_select
+        )
+
         self.__fun_cross = self.__put_combobox(
             COLUMN_1, ROW_6, TITLE_CROSS,
             OPT_CROSS, self.__opt_cross
@@ -162,11 +178,11 @@ class Gui:
     """ Wyswietlanie okien do pobierania przedziałów """
     def __set_entry_get_set(self) -> None:
         x_min, x_max = self.__put_set_xy(
-            COLUMN_2, ROW_5, TITLE_SET_X
+            COLUMN_2, ROW_6, TITLE_SET_X
         )
 
         y_min, y_max = self.__put_set_xy(
-            COLUMN_2, ROW_6, TITLE_SET_Y
+            COLUMN_2, ROW_7, TITLE_SET_Y
         )
 
         self.__board = [x_min, x_max, y_min, y_max]
@@ -183,6 +199,33 @@ class Gui:
 
         self.__inver_prop = self.__put_entry(
             COLUMN_2, ROW_4, TITLE_INVER_PROP
+        )
+
+    """ Wywołanie okna procentu selekcji """
+    def __set_select_proc(self) -> None:
+        self.__p_select.set(OPT_PROC_SELECT[FIRST])
+
+        tk.Label(
+            self.__main, textvariable=self.__p_select
+        ).place(x=COLUMN_2, y=ROW_5)
+
+        self.__select_prop = tk.Entry(
+            self.__main, width=WIDTH_ENTRY
+        )
+
+        self.__select_prop.place(
+            x=COLUMN_2 + MARGIN_ROW, y=ROW_5
+        )
+
+    """ Funkcja zmienia text procentu selekcji 
+    po wybranie opcji selekcji """
+    def __set_new_title_select(self, event) -> None:
+        index_sel_opt = OPT_SELECT.index(
+            self.__opt_select.get()
+        )
+
+        self.__p_select.set(
+            OPT_PROC_SELECT[index_sel_opt]
         )
 
     """ Ustawianie okna głownego """
@@ -276,7 +319,8 @@ class Gui:
                 self.__board[Y_MAX].get()
             ],
             self.__elit.get(), self.__cross_prop.get(),
-            self.__mutable_prop.get(), self.__inver_prop.get()
+            self.__mutable_prop.get(), self.__inver_prop.get(),
+            self.__select_prop.get(), self.__opt_select.get()
         )
 
     """ Uruchamianie algorytmu genetycznego """
@@ -292,7 +336,8 @@ class Gui:
             ],
             self.__opt_fun.get(), self.__opt_select.get(),
             self.__opt_cross.get(), self.__opt_mutable.get(),
-            int(self.__elit.get()), float(self.__cross_prop.get()),
+            int(self.__elit.get()), float(self.__select_prop.get()),
+            float(self.__cross_prop.get()),
             float(self.__mutable_prop.get()),
             float(self.__inver_prop.get())
         )

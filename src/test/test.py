@@ -119,14 +119,14 @@ def calc_statistic():
 
     """ Przykładaowe wywołanie """
     data = []
-    var = [4, 8, 12, 16, 20, 24, 28, 32]
+    var = ['Koła ruletki']
 
     """ Petla oblicza poszczegulne wartosci """
     for el in var:
         row = []
         print('[S]:', el)
-        for _ in range(40):
-            app = Test(len_bit=el)
+        for _ in range(100):
+            app = Test(name_select=el)
             row.append(app.run())
         data.append(row)
 

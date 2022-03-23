@@ -2,7 +2,6 @@ import numpy as np
 import random
 
 
-PROC_SELECT = 3
 TO_LIST = -1
 FIRST = 0
 SECOND = 1
@@ -17,8 +16,9 @@ START_POINT = 1.0
 class Select:
     """ Klasa odpowiedzialna za selekcje epoki """
 
-    def __init__(self, name_fun):
+    def __init__(self, name_fun, proc):
         self.__use_fun = None
+        self.__proc_select = proc
         self.__init_use_fun(name_fun)
 
     """ Głowna funkcja selekcjonujaca epoke """
@@ -39,9 +39,8 @@ class Select:
         self.__use_fun = list_fun[name_fun]
 
     """ Wybieranie elementów najlepszych """
-    @staticmethod
-    def __best_select(popu, rati) -> []:
-        len_sel = len(rati) // PROC_SELECT
+    def __best_select(self, popu, rati) -> []:
+        len_sel = int(len(rati) * self.__proc_select)
         len_bit = len(popu[FIRST])
         select_set = np.array([])
 
@@ -55,7 +54,7 @@ class Select:
 
     """ Wybieranie elementów na podstawie koła ruletki """
     def __roulette_select(self, popu, rati) -> []:
-        len_select = len(rati) // PROC_SELECT
+        len_select = int(len(rati) * self.__proc_select)
         len_bit = len(popu[FIRST])
 
         if np.min(rati) < 0:
@@ -99,14 +98,14 @@ class Select:
         return np.reshape(tab_roul, (TO_LIST, TWO_ARG))
 
     """ Wybieranie elementów na podstawie drabinki """
-    @staticmethod
-    def __leader_select(popu, rati) -> []:
+    def __leader_select(self, popu, rati) -> []:
+        jump_to = int(self.__proc_select)
         tab_new = np.array([])
         len_popu = len(popu)
         len_bit = len(popu[FIRST])
 
-        for i in range(FIRST, len_popu, PROC_SELECT):
-            ind = np.argmin(rati[i: i+PROC_SELECT]) + i
+        for i in range(FIRST, len_popu, jump_to):
+            ind = np.argmin(rati[i: i+jump_to]) + i
             tab_new = np.append(tab_new, popu[ind])
 
         return np.reshape(tab_new, (TO_LIST, len_bit))

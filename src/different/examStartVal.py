@@ -7,6 +7,9 @@ ERR_ELIT = 'liczby zapisanych elit'
 ERR_CROSS = 'procentu krzyzowania'
 ERR_MUTABLE = 'procentu mutacji'
 ERR_INVERT = 'procentu inwersji'
+ERR_SEL_LIDER = 'rozmiaru grupy turniejowej'
+ERR_SEL_BEST = 'procentu najlepszych wartosci'
+ERR_SEL_RULLET = 'procentu losowan w kole ruletki'
 DOT = '.'
 NULL = ''
 ZERO = 0.0
@@ -15,6 +18,9 @@ NEXT = 1
 JUMP_TO = 2
 START = 0
 ZERO_STR = '0'
+OPT_LIDER = 'Selekcja turniejowa'
+OPT_BEST = 'Najlepsi'
+OPT_RULLET = 'Koła ruletki'
 
 
 class ExamStartVal:
@@ -22,7 +28,9 @@ class ExamStartVal:
 
     """ Funkcja sprawdzajaca poprawnosc danych """
     def exam(self, epoch, len_popu, len_bit, end_points,
-             use_elit, p_cross, p_mutate, p_invert) -> str:
+             use_elit, p_cross, p_mutate, p_invert, p_select,
+             select_opt) -> str:
+
         if self.__is_int(epoch):
             return PRE_TEXT + ERR_EPOCH
 
@@ -46,6 +54,18 @@ class ExamStartVal:
 
         if self.__good_set(end_points):
             return PRE_TEXT + ERR_END_POINT
+
+        if select_opt == OPT_RULLET:
+            if self.__is_ufloat(p_select) or float(p_select) == ZERO:
+                return PRE_TEXT + ERR_SEL_RULLET
+
+        if select_opt == OPT_BEST:
+            if self.__is_ufloat(p_select) or float(p_select) == ZERO:
+                return PRE_TEXT + ERR_SEL_BEST
+
+        if select_opt == OPT_LIDER:
+            if self.__is_int(p_select) or p_select == ZERO_STR:
+                return PRE_TEXT + ERR_SEL_LIDER
 
         return NULL
 
