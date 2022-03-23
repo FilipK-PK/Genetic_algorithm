@@ -58,13 +58,14 @@ class Select:
         len_select = len(rati) // PROC_SELECT
         len_bit = len(popu[FIRST])
 
-        rati = rati + START_POINT - np.min(rati)
+        if np.min(rati) < 0:
+            rati = rati + START_POINT - np.min(rati)
+
         dx = np.min(rati) + np.max(rati)
         tab = dx - rati
         tab = tab/np.sum(tab)
 
         tab_roul = self.__create_tab_roulet(tab)
-
         new_tab = self.__random_rulet(
             len_select, tab_roul, popu
         )
